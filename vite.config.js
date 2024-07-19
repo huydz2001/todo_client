@@ -4,13 +4,21 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-
   server: {
-    port: 3030,
+    port: 3000,
     proxy: {
-      "/api": {
-        target: "http://localhost:3000/graphql",
+      '/graphql': {
+        target: 'http://localhost:3000', // Your GraphQL server URL
         changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'graphql-client': ['graphql', '@apollo/client'],
+        },
       },
     },
   },
